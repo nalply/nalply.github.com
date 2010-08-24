@@ -16,10 +16,15 @@ be renamed, however. With the `LD_PRELOAD` environment variable and gcc's
 `__attribute ((constructor))` we can set the victim's name before execution
 enters `main()`.
 
-The `LD_PRELOAD` is used by [reverse engineers][re] to trick compiled
-executables into executing arbitrary code. `__attribute ((constructor))` is
-similar to C++ static initialization. In fact, I also could have written the
-hack in C++.
+`LD_PRELOAD` is used by [reverse engineers][re] to trick compiled executables
+into executing arbitrary code. Functions in libraries and the command itself
+can be hijacked. It's poor man's [monkey patching][mp] in C. It works like
+this: One compiles code to be injected to a dynamic library `patch.so` and
+invokes the command prepended with `LD_PRELOAD=./hack.so`.
+
+`__attribute ((constructor))` is similar to C++ static initialization. In fact,
+I also could have written the hack in C++. I use this feature because I don't
+want hijack functions. I want code to be executed before anything else.
 
 Combined these three features
 
@@ -37,11 +42,11 @@ filesystem also blabs the arguments.
 
 How to trash cmdline?
 
-`program_invocation_name` seems to be essentially a pointer to the data in 
-`cmdline` and `argv[0]`. I don't know how these things relate to each other
+`program_invocation_name` seems to be essentially a pointer to data in 
+`cmdline` and `argv`. I don't know how these things relate exactly to each other
 but in my experiments, if I change either `argv[0]` or `program_invocation_name`
 (`cmdline` is not writable), the other two also change. That's very neat to
-trick `ps -f`.
+trick `ps`&nbsp;`-f`.
 
 I also discovered that the memory for the arguments seems to immediately follow 
 `argv[0]`. `cmdline` also strongly hints this: the arguments are separated by
@@ -62,7 +67,7 @@ the arguments before the victim had a chance to evaluate them...!
 
 What if I somehow could change the arguments *after* the parsing of the victim
 process? What if I somehow could wait one second and let the victim do its
-thing? Bingo! Use a thread and wait one second.
+thing? Bingo! Use a thread (POSIX pthreads) and wait one second.
 
 Most processes evaluate arguments as soon as they are started and never need
 them again.
@@ -78,14 +83,27 @@ one can trash a process' cmdline (but not enlarge).
 
 ##Compiling and invocation
 
-    LD_PRELOAD=./rptitle.so RPTITLE='any name' program and args
+I wrote a small C file `rptitle.c` (about 60 lines) and compiled it with
+
+    gcc -Wall -fPIC -c rptitle.c -o rptitle.o
+    gcc -shared -o rptitle rptitle.o
+
+With
+
+    LD_PRELOAD=./rptitle.so RPTITLE='changedcommand args' command -options args
+    
+I change the process to be listed as `changedcommand args`.
 
 
 ##References
 
 - [prctl man page][prctl]
-- [reverse engineering use of LD_PRELOAD][re] 
+- [Reverse Engineering use of LD_PRELOAD][re]
+- [gcc Function Attributes][gccfa]
 - [program_invocation_name man page][pin]
+- [Monkey Patching][mp]
+- [POSIX pthreads][pt]
+
 
 ##Future improvements
 
@@ -96,4 +114,6 @@ an idea about this... I will write about this in a later post.
 [prctl]: http://www.kernel.org/doc/man-pages/online/pages/man2/prctl.2.html
 [re]:    http://securityvulns.com/articles/reveng/
 [pin]:   http://www.kernel.org/doc/man-pages/online/pages/man3/program_invocation_name.3.html
-
+[mp]:    http://en.wikipedia.org/wiki/Monkey_patch
+[pt]:    http://www.ibm.com/developerworks/linux/library/l-posix1.html
+[gccfa]: http://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html
