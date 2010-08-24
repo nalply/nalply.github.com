@@ -1,10 +1,22 @@
 ---
-layout: bordered
-title: þløg
+layout: home
+title: þløg ø.axat.ch
 ---
 
 {% for post in site.posts limit:5 %}
+
+<small class="posting_date">{{ post.date | date_to_long_string }}</small>
 <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-{{ post.content }}
-<em>Posted on {{ post.date | date_to_long_string }}.</em>
+
+<!-- todo use truncate_html from here:
+  http://henrik.nyh.se/2008/01/rails-truncate-html-helper -->
+<div>
+  {{ post.content | truncatewords: 50 }}
+</div>
+
+<div>
+  <a href="{{ post.url }}">Go to post</a>
+</div>
+<div style="width:100%; border-bottom: 1px dashed gray">&nbsp;</div>
+
 {% endfor %}

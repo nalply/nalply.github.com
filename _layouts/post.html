@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ page.title }}</title>
+  <link rel="stylesheet" type="text/css" href="/screen.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+<div>
+  <div id="inner1"><div id="inner2">
+    <small class="posting_date">{{ page.date | date_to_long_string }}</small>
+    <h2>{{ page.title }}</h2>
+
+    <div id="content">
+      {{ content }}
+    </div>
+    
+    <!-- todo: find out how to include fragments in Jekyll -->
+    <div style="width:100%; border-bottom: 1px dashed gray">&nbsp;</div>
+    
+    <h2>Comments</h2>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      //var disqus_developer = true;
+      
+      (function() {
+        var dsq = document.createElement('script'); 
+        dsq.type = 'text/javascript'; 
+        dsq.async = true;
+        dsq.src = 'http://oaxat.disqus.com/embed.js';
+        (
+          document.getElementsByTagName('head')[0] 
+          || document.getElementsByTagName('body')[0]
+        ).appendChild(dsq);
+      })();
+    </script>
+    <noscript>
+      Please enable JavaScript to view the
+      <a href="http://disqus.com/?ref_noscript=oaxat">comment.</a>
+    </noscript>
+    <a href="http://disqus.com" class="dsq-brlink"
+      >blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+  </div></div>
+</div>
+</body>
+</html>

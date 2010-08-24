@@ -1,10 +1,10 @@
 ---
-layout: bordered
+layout: post
 Title: Disguise Linux Process
 ---
 
-This is about a hack to disguise a process. It does not need root
-privileges or a root kit. How a process is listed in `ps` and `w` is changed,
+This is about a hack to disguise a process. It does *not* need root
+privileges *nor* a root kit. How a process is listed in `ps` and `w` is changed,
 also data in the proc filesystem.
 
 

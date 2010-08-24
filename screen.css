@@ -1,3 +1,10 @@
+body {
+ font: 16px Tahoma,Verdana,sans-serif;
+ background: #ffe;
+ color: #432;
+ line-height: 1.5em;
+}
+
 #inner1 {
  width: 700px;
  border: 6px solid #fea;
@@ -7,6 +14,7 @@
  margin: 1em auto;
  padding: 2px;
 }
+
 #inner2 {
  border: 1px solid #cba;
  border-radius: 6px;
@@ -14,22 +22,38 @@
  padding: 3ex;
  text-align: justify;
 }
+
 h1 {
  text-align: center;
  margin: 1.4em 0 0.8em;
 }
+
 h2 {
  margin: 1.4em 0 0.8em;
 }
-body {
- font: 16px Tahoma,Verdana,sans-serif;
- background: #ffe;
- color: #432;
- line-height: 1.5em;
+
+h2 a {
+  text-decoration: none;
 }
+
+.posting_date + h2 {
+  margin-top: 0;
+}
+
+.posting_date {
+  display: inline-block;
+  width: 100%;
+  text-align: right;
+}
+
 a {
  color: #732;
 }
+
+a:hover {
+  color: black;
+}
+
 code {
  color: black;
 }
