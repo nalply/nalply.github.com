@@ -90,7 +90,8 @@ I wrote a small C file `rptitle.c` (about 60 lines) and compiled it with
 
 With
 
-    LD_PRELOAD=./rptitle.so RPTITLE='changedcommand args' command -options args
+    LD_PRELOAD=./rptitle.so RPTITLE='changedcommand args' command \
+        -options args
     
 I change the process to be listed as `changedcommand args`.
 
