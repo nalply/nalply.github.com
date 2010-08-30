@@ -127,7 +127,7 @@ an idea about this... I will write about this in a later post.
 ##What do you think about this hack?
 
 It is too simple or too basic to be worth mentioning? What could be done about
-this in the kernel?
+this in the kernel? Please comment below!
 
 
 [prctl]: http://www.kernel.org/doc/man-pages/online/pages/man2/prctl.2.html
