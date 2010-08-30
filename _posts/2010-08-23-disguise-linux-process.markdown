@@ -48,9 +48,9 @@ but in my experiments, if I change either `argv[0]` or `program_invocation_name`
 (`cmdline` is not writable), the other two also change. That's very neat to
 trick `ps`&nbsp;`-f`.
 
-I also discovered that the memory for the arguments seems to immediately follow 
-`argv[0]`. `cmdline` also strongly hints this: the arguments are separated by
-a ASCII NUL character. What if I overwrite the arguments by writing beyond
+The memory for the arguments follows `argv[0]`. 
+`cmdline` also show this: the arguments are separated by
+a ASCII NUL character. So what if I overwrite the arguments by writing beyond
 the end of `argv[0]`? 
 
 This is *undefined behavior* and dangerous ground but it seems to "work". In
@@ -78,7 +78,9 @@ Let's recapitulate again: With these features
 - File length of `/proc/self/cmdline` == memory size of cmdline
 - Use a thread to overwrite cmdline later
 
-one can trash a process' cmdline (but not enlarge).
+one can trash a process' cmdline (but not enlarge). Note that `argc` and `argv`
+are not available, because we work in a function which is executed even before
+main().
 
 
 ##Compiling and invocation
@@ -96,6 +98,15 @@ With
 I change the process to be listed as `changedcommand args`.
 
 
+##Ramifications
+
+It is a «simple» hack - simple in the sense that everybody who can start a
+process can do it. No need for root access or a root kit. In essence, the
+system admin cannot trust `ps` or `w` to tell the truth if a user went
+«black hat» and hides what he does. Tools like `lsof` tell which connections
+are active, however. 
+
+
 ##References
 
 - [prctl man page][prctl]
@@ -110,6 +121,12 @@ I change the process to be listed as `changedcommand args`.
 
 `exe` in the proc filesystem still links to the original executable. I have
 an idea about this... I will write about this in a later post.
+
+
+##What do you think about this hack?
+
+It is too simple or too basic to be worth mentioning? What could be done about
+this in the kernel?
 
 
 [prctl]: http://www.kernel.org/doc/man-pages/online/pages/man2/prctl.2.html
