@@ -100,10 +100,10 @@ I change the process to be listed as `changedcommand args`.
 
 ##Ramifications
 
-It is a «simple» hack - simple in the sense that everybody who can start a
+It is a Â«simpleÂ» hack - simple in the sense that everybody who can start a
 process can do it. No need for root access or a root kit. In essence, the
 system admin cannot trust `ps` or `w` to tell the truth if a user went
-«black hat» and hides what he does. Tools like `lsof` tell which connections
+Â«black hatÂ» and hides what he does. Tools like `lsof` tell which connections
 are active, however. 
 
 
