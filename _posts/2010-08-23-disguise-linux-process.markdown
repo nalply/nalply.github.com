@@ -19,7 +19,7 @@ enters `main()`.
 `LD_PRELOAD` is used by [reverse engineers][re] to trick compiled executables
 into executing arbitrary code. Functions in libraries and the command itself
 can be hijacked. It's poor man's [monkey patching][mp] in C. It works like
-this: One compiles code to be injected to a dynamic library `patch.so` and
+this: One compiles code to be injected to a dynamic library `hack.so` and
 invokes the command prepended with `LD_PRELOAD=./hack.so`.
 
 `__attribute ((constructor))` is similar to C++ static initialization. In fact,
